@@ -45,16 +45,8 @@
     
     NSMutableArray* tmpArray = [[NSMutableArray alloc] initWithCapacity:number];
     for(NSUInteger i=0; i<number; ++i) {
-        
         UIView* singleSerieView = [[UIView alloc] init];
-        NSNumber* singleSerieValue = [NSNumber numberWithInteger:0];
-        
-        NSMutableDictionary* singleSerieDictionary = [[NSMutableDictionary alloc] init];
-        
-        [singleSerieDictionary setObject:singleSerieView forKey:@"view"];
-        [singleSerieDictionary setObject:singleSerieValue forKey:@"value"];
-        
-        [tmpArray addObject:singleSerieDictionary];
+        [tmpArray addObject:singleSerieView];
         [self addSubview:singleSerieView];
     }
 
@@ -63,27 +55,16 @@
 }
 
 
--(NSUInteger) computeOffset:(NSUInteger) serie {
-    NSUInteger computedOffset = 0;
-    for(NSUInteger i=0; i<serie; ++i) {
-        computedOffset+=[[[arrayOfSeries objectAtIndex:i] objectForKey:@"value"] integerValue];
-    }
-    return computedOffset;
-}
 
 
--(void) setValue:(NSUInteger) value andColor:(UIColor*) color forSerie:(NSUInteger) serie {
+-(void) setValue:(NSUInteger) value andColor:(UIColor*) color andOffset:(NSUInteger) offset forSerie:(NSUInteger) serie {
     
-    float max = 50;
     
-    NSMutableDictionary* currentDictionary = [arrayOfSeries objectAtIndex:serie];
-    UIView* currentView = [currentDictionary objectForKey:@"view"];
-    NSNumber* currentValue = [NSNumber numberWithInteger:value];
-    [currentDictionary setObject:currentValue forKey:@"value"];
+    NSLog(@" value = %d, offset = %d and serie = %d", value, offset, serie);
     
+    UIView* currentView = [arrayOfSeries objectAtIndex:serie];
     [currentView setBackgroundColor:color];
-    [currentView setFrame:CGRectMake(100+[self computeOffset:serie],3, (max/value), 40)];
-    
+    [currentView setFrame:CGRectMake(100+offset,3, value, 40)];
     
     NSLog(@"frame %f %f %f %f", currentView.frame.origin.x, currentView.frame.origin.y, currentView.frame.size.width, currentView.frame.size.height);
     

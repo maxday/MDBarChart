@@ -17,6 +17,6 @@
 
 
 -(void) setup:(NSUInteger) number;
--(void) setValue:(NSUInteger) value andColor:(UIColor*) color forSerie:(NSUInteger) serie;
+-(void) setValue:(NSUInteger) value andColor:(UIColor*) color andOffset:(NSUInteger) offset forSerie:(NSUInteger) serie;
 
 @end

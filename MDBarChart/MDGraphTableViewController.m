@@ -57,23 +57,19 @@
 
 - (MDCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    
-    NSArray* colorsArray = [NSArray arrayWithObjects:[UIColor redColor], [UIColor blueColor], [UIColor yellowColor], [UIColor greenColor], [UIColor purpleColor], nil];
-    
     static NSString *CellIdentifier = @"Cell";
     MDCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[MDCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        [cell setNumberOfSeries:[data count]];
+        [cell setup:[data count]];
     }
     
-    
-    cell.title.text = @"coucou";
     
     for(NSUInteger i=0; i<[data count]; ++i) {
-        [cell setValue:(i+1)*40 andColor:[colorsArray objectAtIndex:i] forSerie:i];
+        NSString* currentSerieName = [[data allKeys] objectAtIndex:i];
+        cell.title.text = currentSerieName;
+        [cell setValue:(i+1)*40 andColor:[[data objectForKey:currentSerieName] objectForKey:@"color"] andOffset:40+40*i forSerie:i];
     }
-    
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
@@ -81,7 +77,14 @@
     return cell;
 }
 
-
+/*
+-(NSUInteger) computeOffset:(NSUInteger) serie {
+    NSUInteger computedOffset = 0;
+    for(NSUInteger i=0; i<serie; ++i) {
+        computedOffset+=[[[arrayOfSeries objectAtIndex:i] objectForKey:@"value"] integerValue];
+    }
+    return computedOffset;
+}*/
 
 
 #pragma mark - Table view delegate
