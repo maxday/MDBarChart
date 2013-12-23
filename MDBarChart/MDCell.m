@@ -12,7 +12,6 @@
 
 @synthesize title;
 @synthesize arrow;
-@synthesize numberOfSeries;
 @synthesize arrayOfSeries;
 
 
@@ -41,10 +40,11 @@
     return self;
 }
 
--(void) setUp {
+-(void) setup:(NSUInteger) number {
+
     
-    NSMutableArray* tmpArray = [[NSMutableArray alloc] initWithCapacity:numberOfSeries];
-    for(NSUInteger i=0; i<numberOfSeries; ++i) {
+    NSMutableArray* tmpArray = [[NSMutableArray alloc] initWithCapacity:number];
+    for(NSUInteger i=0; i<number; ++i) {
         
         UIView* singleSerieView = [[UIView alloc] init];
         NSNumber* singleSerieValue = [NSNumber numberWithInteger:0];
@@ -62,10 +62,6 @@
     
 }
 
--(void) setNumberOfSeries:(NSUInteger) number {
-    numberOfSeries = number;
-    [self setUp];
-}
 
 -(NSUInteger) computeOffset:(NSUInteger) serie {
     NSUInteger computedOffset = 0;

@@ -11,6 +11,7 @@
 
 @implementation MDGraphTableViewController
 
+@synthesize data;
 
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
@@ -42,7 +43,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    return [data count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -57,20 +58,19 @@
 - (MDCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    int numberOfSeries = 5;
     NSArray* colorsArray = [NSArray arrayWithObjects:[UIColor redColor], [UIColor blueColor], [UIColor yellowColor], [UIColor greenColor], [UIColor purpleColor], nil];
     
     static NSString *CellIdentifier = @"Cell";
     MDCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[MDCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        [cell setNumberOfSeries:numberOfSeries];
+        [cell setNumberOfSeries:[data count]];
     }
     
     
     cell.title.text = @"coucou";
     
-    for(NSUInteger i=0; i<numberOfSeries; ++i) {
+    for(NSUInteger i=0; i<[data count]; ++i) {
         [cell setValue:(i+1)*40 andColor:[colorsArray objectAtIndex:i] forSerie:i];
     }
     

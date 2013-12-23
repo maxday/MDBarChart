@@ -16,7 +16,7 @@
 @property(nonatomic, retain) NSArray* arrayOfSeries;
 
 
--(void) setNumberOfSeries:(NSUInteger) numberOfSeries;
+-(void) setup:(NSUInteger) number;
 -(void) setValue:(NSUInteger) value andColor:(UIColor*) color forSerie:(NSUInteger) serie;
 
 @end

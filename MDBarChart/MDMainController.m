@@ -24,8 +24,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         
-        ViewController* vc = [[ViewController alloc] init];
-        
     }
     return self;
 }
@@ -43,7 +41,13 @@
     [scrollHostView setContentSize:CGSizeMake(500, 1000)];
     
     
+    
     tableGraph = [[MDGraphTableViewController alloc] init];
+    
+    ViewController* vc = [[ViewController alloc] init];
+    
+    [tableGraph setData:[vc data]];
+    
     [self.scrollHostView addSubview:tableGraph.view];
     
     [self.view addSubview:scrollHostView];
