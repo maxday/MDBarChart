@@ -74,10 +74,11 @@
         
         NSDictionary* serieDictionary5 = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:serie5, color5, nil] forKeys:arrayOfKeys];
         
-        NSArray* serieNames = [NSArray arrayWithObjects:@"serie1", @"serie2", @"serie3", @"serie4", @"serie5", nil];
-        NSArray* serieValues = [NSArray arrayWithObjects:serieDictionary1, serieDictionary2, serieDictionary3, serieDictionary4, serieDictionary5, nil];
-       
-        data = [NSDictionary dictionaryWithObjects:serieValues forKeys:serieNames];
+
+        NSArray* series = [NSArray arrayWithObjects:serieDictionary1, serieDictionary2, serieDictionary3, serieDictionary4, serieDictionary5, nil];
+        NSArray* labels = [NSArray arrayWithObjects:@"Spring", @"Summer", @"Fall", @"Winter", nil];
+        
+        data = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:labels, series, nil] forKeys:[NSArray arrayWithObjects:@"labels", @"series", nil]];
         
         NSLog(@"%@", data);
         

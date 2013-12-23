@@ -59,28 +59,28 @@
     
     static NSString *CellIdentifier = @"Cell";
     
-    NSMutableArray* sort = [NSMutableArray arrayWithArray:[data allKeys]];
-    [sort sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    NSMutableArray* series = [data objectForKey:@"series"];
     
     MDCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil) {
         cell = [[MDCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        [cell setup:[sort count]];
+        [cell setup:[series count]];
     }
     
     
     
 
     NSUInteger offset = 0;
-    for(NSUInteger i=0; i<[sort count]; ++i) {
-        NSDictionary* current = [data objectForKey:[sort objectAtIndex:i]];
+    for(NSUInteger i=0; i<[series count]; ++i) {
+        NSDictionary* current = [series objectAtIndex:i];
         NSUInteger value = [[[current objectForKey:@"value"] objectAtIndex:indexPath.section] integerValue];
         [cell setValue:value andColor:[current objectForKey:@"color"] andOffset:offset forPoint:i];
         offset += value;
     }
     
     
+    [cell.title setText:[[data objectForKey:@"labels"] objectAtIndex:indexPath.section]];
 
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
