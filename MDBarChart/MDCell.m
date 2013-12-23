@@ -57,12 +57,12 @@
 
 
 
--(void) setValue:(NSUInteger) value andColor:(UIColor*) color andOffset:(NSUInteger) offset forSerie:(NSUInteger) serie {
+-(void) setValue:(NSUInteger) value andColor:(UIColor*) color andOffset:(NSUInteger) offset forPoint:(NSUInteger) point {
     
     
-    NSLog(@" value = %d, offset = %d and serie = %d", value, offset, serie);
+    NSLog(@" value = %d, offset = %d and point = %d", value, offset, point);
     
-    UIView* currentView = [arrayOfSeries objectAtIndex:serie];
+    UIView* currentView = [arrayOfSeries objectAtIndex:point];
     [currentView setBackgroundColor:color];
     [currentView setFrame:CGRectMake(100+offset,3, value, 40)];
     

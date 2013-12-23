@@ -43,7 +43,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return [data count];
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -58,18 +58,30 @@
 - (MDCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"Cell";
+    
+    NSMutableArray* sort = [NSMutableArray arrayWithArray:[data allKeys]];
+    [sort sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    
     MDCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
     if (cell == nil) {
         cell = [[MDCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        [cell setup:[data count]];
+        [cell setup:[sort count]];
     }
     
     
-    for(NSUInteger i=0; i<[data count]; ++i) {
-        NSString* currentSerieName = [[data allKeys] objectAtIndex:i];
-        cell.title.text = currentSerieName;
-        [cell setValue:(i+1)*40 andColor:[[data objectForKey:currentSerieName] objectForKey:@"color"] andOffset:40+40*i forSerie:i];
+    
+
+    NSUInteger offset = 0;
+    for(NSUInteger i=0; i<[sort count]; ++i) {
+        NSDictionary* current = [data objectForKey:[sort objectAtIndex:i]];
+        NSUInteger value = [[[current objectForKey:@"value"] objectAtIndex:indexPath.section] integerValue];
+        [cell setValue:value andColor:[current objectForKey:@"color"] andOffset:offset forPoint:i];
+        offset += value;
     }
+    
+    
+
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 

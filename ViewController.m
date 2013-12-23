@@ -70,7 +70,7 @@
          [NSNumber numberWithInteger:20],
          [NSNumber numberWithInteger:50], nil];
         
-        UIColor* color5 = [UIColor redColor];
+        UIColor* color5 = [UIColor purpleColor];
         
         NSDictionary* serieDictionary5 = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:serie5, color5, nil] forKeys:arrayOfKeys];
         
