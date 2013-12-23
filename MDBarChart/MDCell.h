@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MDUIButton.h"
 
 @interface MDCell : UITableViewCell
 
@@ -17,6 +18,7 @@
 
 
 -(void) setup:(NSUInteger) number;
--(void) setValue:(NSUInteger) value andColor:(UIColor*) color andOffset:(NSUInteger) offset forPoint:(NSUInteger) serie;
+-(void) setValue:(NSUInteger) value andColor:(UIColor*) color andOffset:(NSUInteger) offset forPoint:(NSUInteger) point;
+-(MDUIButton*) getButtonForPoint:(NSUInteger) point;
 
 @end

@@ -7,7 +7,6 @@
 
 #import "MDCell.h"
 
-
 @implementation MDCell
 
 @synthesize title;
@@ -45,7 +44,7 @@
     
     NSMutableArray* tmpArray = [[NSMutableArray alloc] initWithCapacity:number];
     for(NSUInteger i=0; i<number; ++i) {
-        UIView* singleSerieView = [[UIView alloc] init];
+        MDUIButton* singleSerieView = [[MDUIButton alloc] init];
         [tmpArray addObject:singleSerieView];
         [self addSubview:singleSerieView];
     }
@@ -68,6 +67,10 @@
     
     NSLog(@"frame %f %f %f %f", currentView.frame.origin.x, currentView.frame.origin.y, currentView.frame.size.width, currentView.frame.size.height);
     
+}
+
+-(MDUIButton*) getButtonForPoint:(NSUInteger) point {
+    return [arrayOfSeries objectAtIndex:point];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

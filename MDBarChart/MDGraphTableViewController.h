@@ -11,5 +11,6 @@
 @interface MDGraphTableViewController : UITableViewController
 
 @property(nonatomic, retain) NSDictionary* data;
+@property(nonatomic, readwrite) NSUInteger max;
 
 @end
