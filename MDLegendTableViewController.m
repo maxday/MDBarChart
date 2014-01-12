@@ -179,6 +179,9 @@
 #pragma mark - Section header delegate
 
 -(void)sectionHeaderView:(TBMPieHeaderSectionCell*)sectionHeaderView sectionOpened:(NSInteger)sectionOpened {
+    
+    NSLog(@"OPEN %d", sectionOpened);
+    
     /*
 	APLSectionInfo *sectionInfo = (self.sectionInfoArray)[sectionOpened];
     
@@ -251,6 +254,9 @@
 
 
 -(void)sectionHeaderView:(TBMPieHeaderSectionCell*)sectionHeaderView sectionClosed:(NSInteger)sectionClosed {
+    
+    
+    NSLog(@"CLOSED %d", sectionClosed);
     
     /*
      Create an array of the index paths of the rows in the section that was closed, then delete those rows from the table view.

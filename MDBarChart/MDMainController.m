@@ -92,6 +92,7 @@
 }
 
 - (void) sectionHeaderView:(MDLegendCell*)sectionHeaderView sectionOpened:(NSInteger)section {
+    NSLog(@"%d", section);
     return [tableLegend sectionHeaderView:sectionHeaderView sectionOpened:section];
 }
 

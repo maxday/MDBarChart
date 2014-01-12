@@ -44,12 +44,12 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 4;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return 4;
 }
 
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -80,19 +80,19 @@
     NSUInteger offset = 0;
     for(NSUInteger i=0; i<[series count]; ++i) {
         NSDictionary* current = [series objectAtIndex:i];
-        NSUInteger value = [[[current objectForKey:@"value"] objectAtIndex:indexPath.section] integerValue];
+        NSUInteger value = [[[current objectForKey:@"value"] objectAtIndex:indexPath.row] integerValue];
         NSUInteger scaledValue = max_size_bar*value/max;
         [cell setValue:scaledValue andColor:[current objectForKey:@"color"] andOffset:offset forPoint:i];
         
         MDUIButton* currentView = [cell getButtonForPoint:i];
-        [currentView setSerie:i andPoint:indexPath.section];
+        [currentView setSerie:i andPoint:indexPath.row];
         [currentView addTarget:self action:@selector(clickHandler:) forControlEvents:UIControlEventTouchUpInside];
         
         offset += scaledValue;
     }
     
     
-    [cell.title setText:[[data objectForKey:@"labels"] objectAtIndex:indexPath.section]];
+    [cell.title setText:[[data objectForKey:@"labels"] objectAtIndex:indexPath.row]];
 
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -115,7 +115,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"SELECT = %d", indexPath.section);
+    NSLog(@"SELECT = %d", indexPath.row);
     
     
     UITableView* tableLegendView = [self.delegate legendTableView];
