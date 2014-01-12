@@ -73,6 +73,7 @@
 		58A3D6911882F155009D9FDB /* APLSectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APLSectionInfo.h; sourceTree = "<group>"; };
 		58A3D6921882F155009D9FDB /* APLSectionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APLSectionInfo.m; sourceTree = "<group>"; };
 		58A3D6941882FE6E009D9FDB /* MDGraphLegendDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MDGraphLegendDelegate.h; sourceTree = "<group>"; };
+		58A3D69518830762009D9FDB /* MDConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MDConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +103,7 @@
 		5823C86618675774005DE84F = {
 			isa = PBXGroup;
 			children = (
+				58A3D69518830762009D9FDB /* MDConstants.h */,
 				58A3D6911882F155009D9FDB /* APLSectionInfo.h */,
 				58A3D6921882F155009D9FDB /* APLSectionInfo.m */,
 				58A3D68E1882EE59009D9FDB /* MDLegendCell.h */,

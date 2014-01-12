@@ -7,6 +7,7 @@
 //
 
 #import "MDGraphTableViewController.h"
+#import "MDConstants.h"
 #import "MDCell.h"
 
 @implementation MDGraphTableViewController
@@ -65,7 +66,7 @@
     
     static NSString *CellIdentifier = @"Cell";
     
-    NSArray* series = [data objectForKey:@"series"];
+    NSArray* series = [data objectForKey:kMDSerieKey];
     
     MDCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -80,9 +81,9 @@
     NSUInteger offset = 0;
     for(NSUInteger i=0; i<[series count]; ++i) {
         NSDictionary* current = [series objectAtIndex:i];
-        NSUInteger value = [[[current objectForKey:@"value"] objectAtIndex:indexPath.row] integerValue];
+        NSUInteger value = [[[current objectForKey:kMDValueKey] objectAtIndex:indexPath.row] integerValue];
         NSUInteger scaledValue = max_size_bar*value/max;
-        [cell setValue:scaledValue andColor:[current objectForKey:@"color"] andOffset:offset forPoint:i];
+        [cell setValue:scaledValue andColor:[current objectForKey:kMDColorKey] andOffset:offset forPoint:i];
         
         MDUIButton* currentView = [cell getButtonForPoint:i];
         [currentView setSerie:i andPoint:indexPath.row];
@@ -92,7 +93,7 @@
     }
     
     
-    [cell.title setText:[[data objectForKey:@"labels"] objectAtIndex:indexPath.row]];
+    [cell.title setText:[[data objectForKey:kMDLabelKey] objectAtIndex:indexPath.row]];
 
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -134,8 +135,8 @@
 
 -(NSUInteger) computeMax {
     
-    NSArray* series = [data objectForKey:@"series"];
-    NSArray* labels = [data objectForKey:@"labels"];
+    NSArray* series = [data objectForKey:kMDSerieKey];
+    NSArray* labels = [data objectForKey:kMDLabelKey];
     
     NSUInteger currentMax = 0;
     NSUInteger realMax = 0;
@@ -144,7 +145,7 @@
         currentMax = 0;
         for(NSUInteger serie=0; serie<[series count]; ++serie) {
             NSDictionary* current = [series objectAtIndex:serie];
-            NSUInteger value = [[[current objectForKey:@"value"] objectAtIndex:label] integerValue];
+            NSUInteger value = [[[current objectForKey:kMDValueKey] objectAtIndex:label] integerValue];
             currentMax += value;
             NSLog(@"jajoute %d donc %d", value, currentMax);
         }

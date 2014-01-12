@@ -7,6 +7,7 @@
 //
 
 #import "MDLegendTableViewController.h"
+#import "MDConstants.h"
 #import "APLSectionInfo.h"
 
 @interface MDLegendTableViewController ()
@@ -81,7 +82,7 @@
         else
             allKeys = [NSArray arrayWithArray:[[values allKeys] sortedArrayUsingFunction:intSort context:NULL]];
         */
-        allKeys = [values allKeys];
+        allKeys = [values objectForKey:kMDLabelKey];
 		for (NSString *titleValue in allKeys) {
 			APLSectionInfo *sectionInfo = [[APLSectionInfo alloc] init];
 			sectionInfo.title = titleValue;

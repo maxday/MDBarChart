@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "MDConstants.h"
 
 @interface ViewController ()
 
@@ -78,7 +79,7 @@
         NSArray* series = [NSArray arrayWithObjects:serieDictionary1, serieDictionary2, serieDictionary3, serieDictionary4, serieDictionary5, nil];
         NSArray* labels = [NSArray arrayWithObjects:@"Spring", @"Summer", @"Fall", @"Winter", nil];
         
-        data = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:labels, series, nil] forKeys:[NSArray arrayWithObjects:@"labels", @"series", nil]];
+        data = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:labels, series, nil] forKeys:[NSArray arrayWithObjects:kMDLabelKey, kMDSerieKey, nil]];
         
         NSLog(@"%@", data);
         
