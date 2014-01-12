@@ -116,16 +116,19 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"SELECT = %d", indexPath.section);
-    /*
     
-    [tableViewLegend.tableView scrollRectToVisible:CGRectMake(0, 46*indexPath.row, 300, 46*5) animated:NO];
     
-    if(tableViewLegend.openSectionIndex != indexPath.row)
-    [tableViewLegend sectionHeaderView:[tableViewLegend.sectionInfoArray objectAtIndex:indexPath.row] sectionOpened:indexPath.row];
+    UITableView* tableLegendView = [self.delegate legendTableView];
+    NSUInteger openSectionIndex = [self.delegate openSectionIndex];
+    
+    [tableLegendView scrollRectToVisible:CGRectMake(0, 46*indexPath.row, 300, 46*5) animated:NO];
+    
+    if(openSectionIndex != indexPath.row)
+        [self.delegate sectionHeaderView:[self.delegate sectionHeaderAtIndex:indexPath.row] sectionOpened:indexPath.row];
     else {
-        [tableViewLegend sectionHeaderView:[tableViewLegend.sectionInfoArray objectAtIndex:indexPath.row] sectionClosed:indexPath.row];
+        [self.delegate sectionHeaderView:[self.delegate sectionHeaderAtIndex:indexPath.row] sectionClosed:indexPath.row];
     }
-    */
+    
     
 }
 
@@ -157,6 +160,8 @@
 -(void) clickHandler:(MDUIButton*) sender {
     NSLog(@"CLICK %d - %d", sender.serie, sender.point);
 }
+
+
 
 
 @end

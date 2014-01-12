@@ -24,6 +24,9 @@
 		5823C8DA18675E99005DE84F /* MDMainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5823C8D918675E99005DE84F /* MDMainController.m */; };
 		5823C8E01867AD4A005DE84F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5823C8DF1867AD4A005DE84F /* ViewController.m */; };
 		5823C8E61867FBF5005DE84F /* MDUIButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5823C8E51867FBF5005DE84F /* MDUIButton.m */; };
+		58A3D68D1882EDDF009D9FDB /* MDLegendTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58A3D68C1882EDDF009D9FDB /* MDLegendTableViewController.m */; };
+		58A3D6901882EE59009D9FDB /* MDLegendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58A3D68F1882EE59009D9FDB /* MDLegendCell.m */; };
+		58A3D6931882F155009D9FDB /* APLSectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 58A3D6921882F155009D9FDB /* APLSectionInfo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +66,13 @@
 		5823C8DF1867AD4A005DE84F /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		5823C8E41867FBF5005DE84F /* MDUIButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDUIButton.h; sourceTree = "<group>"; };
 		5823C8E51867FBF5005DE84F /* MDUIButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDUIButton.m; sourceTree = "<group>"; };
+		58A3D68B1882EDDF009D9FDB /* MDLegendTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDLegendTableViewController.h; sourceTree = "<group>"; };
+		58A3D68C1882EDDF009D9FDB /* MDLegendTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDLegendTableViewController.m; sourceTree = "<group>"; };
+		58A3D68E1882EE59009D9FDB /* MDLegendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDLegendCell.h; sourceTree = "<group>"; };
+		58A3D68F1882EE59009D9FDB /* MDLegendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDLegendCell.m; sourceTree = "<group>"; };
+		58A3D6911882F155009D9FDB /* APLSectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APLSectionInfo.h; sourceTree = "<group>"; };
+		58A3D6921882F155009D9FDB /* APLSectionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APLSectionInfo.m; sourceTree = "<group>"; };
+		58A3D6941882FE6E009D9FDB /* MDGraphLegendDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MDGraphLegendDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +102,12 @@
 		5823C86618675774005DE84F = {
 			isa = PBXGroup;
 			children = (
+				58A3D6911882F155009D9FDB /* APLSectionInfo.h */,
+				58A3D6921882F155009D9FDB /* APLSectionInfo.m */,
+				58A3D68E1882EE59009D9FDB /* MDLegendCell.h */,
+				58A3D68F1882EE59009D9FDB /* MDLegendCell.m */,
+				58A3D68B1882EDDF009D9FDB /* MDLegendTableViewController.h */,
+				58A3D68C1882EDDF009D9FDB /* MDLegendTableViewController.m */,
 				5823C8E41867FBF5005DE84F /* MDUIButton.h */,
 				5823C8E51867FBF5005DE84F /* MDUIButton.m */,
 				5823C8DE1867AD4A005DE84F /* ViewController.h */,
@@ -134,6 +150,7 @@
 				5823C8D918675E99005DE84F /* MDMainController.m */,
 				5823C88418675774005DE84F /* Images.xcassets */,
 				5823C87918675774005DE84F /* Supporting Files */,
+				58A3D6941882FE6E009D9FDB /* MDGraphLegendDelegate.h */,
 				5823C8D218675C98005DE84F /* MDGraphTableViewController.h */,
 				5823C8D318675C98005DE84F /* MDGraphTableViewController.m */,
 			);
@@ -264,6 +281,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58A3D6901882EE59009D9FDB /* MDLegendCell.m in Sources */,
 				5823C8E01867AD4A005DE84F /* ViewController.m in Sources */,
 				5823C88318675774005DE84F /* AppDelegate.m in Sources */,
 				5823C8D718675D7E005DE84F /* MDCell.m in Sources */,
@@ -271,6 +289,8 @@
 				5823C8D418675C98005DE84F /* MDGraphTableViewController.m in Sources */,
 				5823C87F18675774005DE84F /* main.m in Sources */,
 				5823C8E61867FBF5005DE84F /* MDUIButton.m in Sources */,
+				58A3D68D1882EDDF009D9FDB /* MDLegendTableViewController.m in Sources */,
+				58A3D6931882F155009D9FDB /* APLSectionInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,6 +493,7 @@
 				5823C89D18675774005DE84F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5823C89E18675774005DE84F /* Build configuration list for PBXNativeTarget "MDBarChartTests" */ = {
 			isa = XCConfigurationList;
@@ -481,6 +502,7 @@
 				5823C8A018675774005DE84F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

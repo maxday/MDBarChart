@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MDGraphLegendDelegate.h"
 
 @interface MDGraphTableViewController : UITableViewController
 
 @property(nonatomic, retain) NSDictionary* data;
 @property(nonatomic, readwrite) NSUInteger max;
+
+@property(nonatomic, weak) id delegate;
 
 @end

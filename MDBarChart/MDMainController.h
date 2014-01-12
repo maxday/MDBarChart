@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "MDGraphTableViewController.h"
+#import "MDLegendTableViewController.h"
 
-@interface MDMainController : UIViewController
+@interface MDMainController : UIViewController<MDGraphLegendDelegate>
 
 
 @property (nonatomic, retain) UIScrollView* scrollHostView;
+@property (nonatomic, retain) UIScrollView* scrollHostViewLegend;
 @property (nonatomic, retain) MDGraphTableViewController* tableGraph;
+@property (nonatomic, retain) MDLegendTableViewController* tableLegend;
+
 @end
