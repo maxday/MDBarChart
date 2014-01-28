@@ -7,16 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MDLegendCell.h"
+#import "MDLegendHeaderView.h"
 
 @protocol MDGraphLegendDelegate <NSObject>
 
 @required
 - (UITableView*) legendTableView;
+- (UITableView*) graphTableView;
 - (NSUInteger) openSectionIndex;
-- (void)sectionHeaderView:(MDLegendCell*)sectionHeaderView sectionOpened:(NSInteger)section;
-- (void)sectionHeaderView:(MDLegendCell*)sectionHeaderView sectionClosed:(NSInteger)section;
-- (MDLegendCell*) sectionHeaderAtIndex:(NSUInteger)index;
+- (void)sectionHeaderView:(MDLegendHeaderView*)sectionHeaderView sectionOpened:(NSInteger)section;
+- (void)sectionHeaderView:(MDLegendHeaderView*)sectionHeaderView sectionClosed:(NSInteger)section;
+- (MDLegendHeaderView*) sectionHeaderAtIndex:(NSUInteger)index;
 
 
 @end

@@ -6,6 +6,7 @@
 //
 
 #import "MDCell.h"
+#import "MDConstants.h"
 
 @implementation MDCell
 
@@ -21,18 +22,20 @@
         
         [self setBackgroundColor:[UIColor grayColor]];
         
-        title = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 160, 46)];
+        title = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 160, kMDCellHeight)];
         title.numberOfLines = 2;
         [title setBackgroundColor:[UIColor clearColor]];
-        [title setFont:[UIFont fontWithName:@"Arial" size:16]];
+        [title setFont:[UIFont fontWithName:kMDFontName size:kMDFontSize]];
         title.textAlignment = NSTextAlignmentLeft;
 
-        arrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"carat"]];
-        [arrow setCenter:CGPointMake(2,23)];
+        arrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kMDArrowImgName]];
+        [arrow setCenter:CGPointMake(2,kMDCellHeight/2)];
         [arrow setHidden:YES];
         [self addSubview:arrow];
         
         [self addSubview:title];
+        
+        //self.backgroundColor = [UIColor darkGrayColor];
         
         
     }
@@ -73,12 +76,15 @@
     return [arrayOfSeries objectAtIndex:point];
 }
 
+
+- (void) setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    [super setHighlighted:highlighted animated:animated];
+    [arrow setHidden:!highlighted];
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    
     [super setSelected:selected animated:animated];
     [arrow setHidden:!selected];
-    
-    // Configure the view for the selected state
 }
 
 @end

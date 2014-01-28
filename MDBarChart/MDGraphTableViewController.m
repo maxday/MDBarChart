@@ -8,7 +8,7 @@
 
 #import "MDGraphTableViewController.h"
 #import "MDConstants.h"
-#import "MDCell.h"
+
 
 @implementation MDGraphTableViewController
 
@@ -25,13 +25,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view setFrame:CGRectMake(0,0,700,700)];
+    [self.view setFrame:CGRectMake(30,100,200,700)];
     
     [self.tableView setBackgroundColor:[UIColor brownColor]];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     [self.tableView setBounces:NO];
-    
+    self.tableView.backgroundColor = [UIColor redColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -50,11 +50,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return [[data objectForKey:kMDLabelKey] count];
 }
 
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 46;
+    return kMDCellHeight;
 }
 
 - (MDCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -95,6 +95,7 @@
     
     [cell.title setText:[[data objectForKey:kMDLabelKey] objectAtIndex:indexPath.row]];
 
+    NSLog(@"--- %@", cell.title.text);
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
@@ -114,20 +115,33 @@
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"SELECT = %d", indexPath.row);
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self performSelectRow:tableView andIndexPath:indexPath];
+}
+
+
+
+
+
+-(void) performSelectRow:(UITableView *)tableView andIndexPath:(NSIndexPath *)indexPath {
     
+    NSLog(@"SELECT = %d", indexPath.row);
     
     UITableView* tableLegendView = [self.delegate legendTableView];
     NSUInteger openSectionIndex = [self.delegate openSectionIndex];
     
-    [tableLegendView scrollRectToVisible:CGRectMake(0, 46*indexPath.row, 300, 46*5) animated:NO];
+    
+    
+    CGRect visibleRect = [tableLegendView convertRect:tableLegendView.bounds toView:self.view];
+    
+    [tableLegendView scrollRectToVisible:CGRectMake(0, kMDCellHeight*indexPath.row, 300, kMDCellHeight*5) animated:NO];
     
     if(openSectionIndex != indexPath.row)
         [self.delegate sectionHeaderView:[self.delegate sectionHeaderAtIndex:indexPath.row] sectionOpened:indexPath.row];
     else {
+        
         [self.delegate sectionHeaderView:[self.delegate sectionHeaderAtIndex:indexPath.row] sectionClosed:indexPath.row];
+        [[tableView cellForRowAtIndexPath:indexPath] setSelected:NO animated:NO];
     }
     
     
@@ -147,7 +161,7 @@
             NSDictionary* current = [series objectAtIndex:serie];
             NSUInteger value = [[[current objectForKey:kMDValueKey] objectAtIndex:label] integerValue];
             currentMax += value;
-            NSLog(@"jajoute %d donc %d", value, currentMax);
+
         }
         if(currentMax > realMax) {
             realMax = currentMax;
@@ -160,6 +174,17 @@
 
 -(void) clickHandler:(MDUIButton*) sender {
     NSLog(@"CLICK %d - %d", sender.serie, sender.point);
+
+    NSIndexPath* builtIndexPath = [NSIndexPath indexPathForRow:sender.point inSection:0];
+    
+    MDCell* cellToSelect = (MDCell*) [self.tableView cellForRowAtIndexPath:builtIndexPath];
+    NSLog(@"%@", cellToSelect.title.text);
+    
+    [cellToSelect setSelected:YES animated:YES];
+   
+    [self performSelectRow:self.tableView andIndexPath:builtIndexPath];
+
+    
 }
 
 

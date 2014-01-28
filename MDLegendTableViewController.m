@@ -4,11 +4,14 @@
 //
 //  Created by got2bex on 1/12/2014.
 //  Copyright (c) 2014 MD. All rights reserved.
+//  Inspired by https://developer.apple.com/library/ios/samplecode/TableViewUpdates/Introduction/Intro.html
 //
+
 
 #import "MDLegendTableViewController.h"
 #import "MDConstants.h"
-#import "APLSectionInfo.h"
+#import "MDLegendCell.h"
+#import "MDSectionHeaderInfo.h"
 
 @interface MDLegendTableViewController ()
 
@@ -16,15 +19,10 @@
 
 @implementation MDLegendTableViewController
 
-#define DEFAULT_ROW_HEIGHT 48
-#define HEADER_HEIGHT 48
-#define NB_LEGEND 2
-
 @synthesize values;
-@synthesize stackViewController;
 @synthesize sectionsArray;
 @synthesize sectionInfoArray;
-@synthesize sectionHeaderView;
+
 
 #pragma mark - Initialization and configuration
 
@@ -37,21 +35,18 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    
+    
+    [self.view setFrame:CGRectMake(530,100,200,700)];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
     
     
     sectionsArray = [[NSMutableArray alloc] init];
-    
-    //NSLog(@"du coup %@", [[[self.plays objectAtIndex:0] quotations] debugDescription]);
-    
-    // Add a pinch gesture recognizer to the table view
-    
-    // Set up default values.
-    self.tableView.sectionHeaderHeight = HEADER_HEIGHT;
+    self.tableView.sectionHeaderHeight = kMDCellHeight;
 
     self.openSectionIndex = NSNotFound;
     
-    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    //[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     [self.tableView setBounces:NO];
     
@@ -61,114 +56,93 @@
 - (void)viewWillAppear:(BOOL)animated {
     
 	[super viewWillAppear:animated];
-    
-    
-    /*
-     Check whether the section info array has been created, and if so whether the section count still matches the current section count. In general, you need to keep the section info synchronized with the rows and section. If you support editing in the table view, you need to appropriately update the section info during editing operations.
-     */
-    
+
 	if ((self.sectionInfoArray == nil) || ([self.sectionInfoArray count] != [self numberOfSectionsInTableView:self.tableView])) {
         
-        // For each play, set up a corresponding SectionInfo object to contain the default height for each row.
 		NSMutableArray *infoArray = [[NSMutableArray alloc] init];
+
+        NSArray* allKeys = [values objectForKey:kMDLabelKey];
         
-        NSArray* allKeys;
-        /*
-        TBMGraphMultiStackedViewController* gMSVC = (TBMGraphMultiStackedViewController*) stackViewController;
-        
-        if(gMSVC.specificAlphaOrder) {
-            allKeys = [NSArray arrayWithArray:[[values allKeys] sortedArrayUsingFunction:cpSort context:NULL]];
-        }
-        else
-            allKeys = [NSArray arrayWithArray:[[values allKeys] sortedArrayUsingFunction:intSort context:NULL]];
-        */
-        allKeys = [values objectForKey:kMDLabelKey];
 		for (NSString *titleValue in allKeys) {
-			APLSectionInfo *sectionInfo = [[APLSectionInfo alloc] init];
-			sectionInfo.title = titleValue;
-			sectionInfo.open = NO;
+			MDSectionHeaderInfo *sectionInfo = [[MDSectionHeaderInfo alloc] init];
+			sectionInfo.serieName = titleValue;
+			sectionInfo.isOpened = NO;
             
-            NSNumber *defaultRowHeight = @(DEFAULT_ROW_HEIGHT);
-			NSInteger countOfQuotations = NB_LEGEND;
-			for (NSInteger i = 0; i < countOfQuotations; i++) {
-				[sectionInfo insertObject:defaultRowHeight inRowHeightsAtIndex:i];
+            NSNumber *defaultRowHeight = [NSNumber numberWithInt:kMDCellHeight];
+			for (NSInteger i = 0; i < [self numberOfRows]; i++) {
+                [[sectionInfo rowHeights] insertObject:defaultRowHeight atIndex:i];
 			}
             
 			[infoArray addObject:sectionInfo];
 		}
         
 		self.sectionInfoArray = infoArray;
+        
+        NSLog(@"%@", [infoArray debugDescription]);
 	}
+    
+    
+    //self.tableView.backgroundColor = [UIColor redColor];
+    
 }
 
 
 #pragma mark - Table view data source and delegate
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
-    NSLog(@"%d", [values count]);
-    return [values count];
+    return [[values objectForKey:kMDLabelKey] count];
 }
 
 
 -(NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     
-	APLSectionInfo *sectionInfo = (self.sectionInfoArray)[section];
-	NSInteger numStoriesInSection = NB_LEGEND;
-    return 2;
-    return sectionInfo.open ? numStoriesInSection : 0;
+	MDSectionHeaderInfo *sectionInfo = [self.sectionInfoArray objectAtIndex:section];
+
+    if(sectionInfo.isOpened) {
+        return [self numberOfRows];
+    }
+    return 0;
+    
 }
 
 
--(UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
+-(MDLegendCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
     
-    static NSString *QuoteCellIdentifier = @"QuoteCellIdentifier";
+    static NSString *serieIdentifier = @"SerieIdentifier";
     
-    UITableViewCell* cell;
+    MDLegendCell* cell;
     
-    cell = [tableView dequeueReusableCellWithIdentifier:QuoteCellIdentifier];
+    cell = [tableView dequeueReusableCellWithIdentifier:serieIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:QuoteCellIdentifier] ;
+        cell = [[MDLegendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:serieIdentifier] ;
     }
     
-    cell.textLabel.text = @"label";
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ %d", [[[values objectForKey:kMDSerieKey] objectAtIndex:indexPath.row] objectForKey:kMDSerieNameKey], [[[[[values objectForKey:kMDSerieKey] objectAtIndex:indexPath.row] objectForKey:kMDValueKey] objectAtIndex:indexPath.section] integerValue]];
+    
+    [cell setBorderColor:[[[values objectForKey:kMDSerieKey] objectAtIndex:indexPath.row] objectForKey:kMDColorKey]];
     
     return cell;
 }
 
-/*
+
 -(UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section {
     
-    TBMPieHeaderSectionCell *sectionHeaderView = [[TBMPieHeaderSectionCell alloc] initWithFrame:CGRectMake(0,0,300,48)];
-    [sectionsArray addObject:sectionHeaderView];
-    APLSectionInfo *sectionInfo = (self.sectionInfoArray)[section];
+    MDLegendHeaderView *legendHeaderView = [[MDLegendHeaderView alloc] initWithFrame:CGRectMake(0, 0, 300, kMDCellHeight)];
+    [sectionsArray addObject:legendHeaderView];
     
+    MDSectionHeaderInfo *sectionInfo = [self.sectionInfoArray objectAtIndex:section];
     
+    legendHeaderView.customLabel.text = sectionInfo.serieName;
     
-    //TBMPieChartViewController* pCC = (TBMPieChartViewController*) pieChartController;
+    legendHeaderView.section = section;
+    legendHeaderView.delegate = self;
+    sectionInfo.legendHeaderView = legendHeaderView;
     
-    
-    //NSNumber* valueToDisplay = [NSNumber numberWithFloat:[pCC pieChart:pCC.pieChartGraph valueForSliceAtIndex:section]];
-    //[pCC.numberFormat stringFromNumber:valueToDisplay];
-    
-    //sectionHeaderView.customLabel.text = sectionInfo.title;
-    //sectionHeaderView.deValue.text = [pCC.numberFormat stringFromNumber:valueToDisplay];
-    
-    
-    [sectionHeaderView.leftBorder setBackgroundColor:[TBMSingleton colorFromString:[self computeKeyFromIndex:section]]];
-    
-    [sectionHeaderView.contentView setBackgroundColor:[UIColor whiteColor]];
-    
-    sectionHeaderView.section = section;
-    sectionHeaderView.delegate = self;
-    sectionInfo.headerView = sectionHeaderView;
-    return sectionHeaderView;
-}*/
+    return legendHeaderView;
+}
 
 -(CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath {
-    
-	APLSectionInfo *sectionInfo = (self.sectionInfoArray)[indexPath.section];
-    return [[sectionInfo objectInRowHeightsAtIndex:indexPath.row] floatValue];
-    // Alternatively, return rowHeight.
+    return kMDCellHeight;
 }
 
 
@@ -178,58 +152,44 @@
 
 
 #pragma mark - Section header delegate
-
--(void)sectionHeaderView:(TBMPieHeaderSectionCell*)sectionHeaderView sectionOpened:(NSInteger)sectionOpened {
+//  Inspired by https://developer.apple.com/library/ios/samplecode/TableViewUpdates/Introduction/Intro.html
+-(void)sectionHeaderView:(MDLegendHeaderView*)sectionHeaderView sectionOpened:(NSInteger)sectionOpened {
     
     NSLog(@"OPEN %d", sectionOpened);
     
-    /*
-	APLSectionInfo *sectionInfo = (self.sectionInfoArray)[sectionOpened];
+	MDSectionHeaderInfo *sectionInfo = (self.sectionInfoArray)[sectionOpened];
     
-    if(sectionInfo.open) {
+    //enable arrow
+    UITableViewCell* currentCell = [[self.delegateGraphLegend graphTableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:sectionOpened inSection:0]];
+    [currentCell setSelected:!sectionInfo.isOpened animated:YES];
+    
+    if(sectionInfo.isOpened) {
         [self sectionHeaderView:sectionHeaderView sectionClosed:sectionOpened];
         return;
     }
     
-	sectionInfo.open = YES;
+	sectionInfo.isOpened = YES;
     
-    [self.delegate notifyChange:sectionOpened];
-    
-    TBMPieChartViewController* pCC = (TBMPieChartViewController*) pieChartController;
-     [pCC deselectAll];
-     [pCC.pieChartGraph setSliceSelectedAtIndex:sectionOpened];
-     [pCC setSliceReady:sectionOpened];*/
-    //pCC willSe
-    
-    /*
-     Create an array containing the index paths of the rows to insert: These correspond to the rows for each quotation in the current section.
-     
-    NSInteger countOfRowsToInsert = NB_LEGEND;
+
+    NSInteger countOfRowsToInsert = [self numberOfRows];
     NSMutableArray *indexPathsToInsert = [[NSMutableArray alloc] init];
     for (NSInteger i = 0; i < countOfRowsToInsert; i++) {
         [indexPathsToInsert addObject:[NSIndexPath indexPathForRow:i inSection:sectionOpened]];
     }
 
-    
-     Create an array containing the index paths of the rows to delete: These correspond to the rows for each quotation in the previously-open section, if there was one.
-     */
-    
-    /*
+
     NSMutableArray *indexPathsToDelete = [[NSMutableArray alloc] init];
     
     NSInteger previousOpenSectionIndex = self.openSectionIndex;
     if (previousOpenSectionIndex != NSNotFound) {
-        
-		APLSectionInfo *previousOpenSection = (self.sectionInfoArray)[previousOpenSectionIndex];
-        previousOpenSection.open = NO;
-        [previousOpenSection.headerView toggleOpenWithUserAction:NO];
-        NSInteger countOfRowsToDelete = NB_LEGEND;
+		MDSectionHeaderInfo *previousOpenSection = (self.sectionInfoArray)[previousOpenSectionIndex];
+        previousOpenSection.isOpened = NO;
+        NSInteger countOfRowsToDelete = [self numberOfRows];
         for (NSInteger i = 0; i < countOfRowsToDelete; i++) {
             [indexPathsToDelete addObject:[NSIndexPath indexPathForRow:i inSection:previousOpenSectionIndex]];
         }
     }
     
-    // Style the animation so that there's a smooth flow in either direction.
     UITableViewRowAnimation insertAnimation;
     UITableViewRowAnimation deleteAnimation;
     if (previousOpenSectionIndex == NSNotFound || sectionOpened < previousOpenSectionIndex) {
@@ -240,42 +200,41 @@
         insertAnimation = UITableViewRowAnimationBottom;
         deleteAnimation = UITableViewRowAnimationTop;
     }
-    
-    // Apply the updates.
+
     [self.tableView beginUpdates];
     [self.tableView insertRowsAtIndexPaths:indexPathsToInsert withRowAnimation:insertAnimation];
     [self.tableView deleteRowsAtIndexPaths:indexPathsToDelete withRowAnimation:deleteAnimation];
     [self.tableView endUpdates];
+    
+    // Make sure the old arrow will disapear
+    currentCell = [[self.delegateGraphLegend graphTableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.openSectionIndex inSection:0]];
+    [currentCell setSelected:NO animated:YES];
+    
     self.openSectionIndex = sectionOpened;
     
-    [self.tableView scrollRectToVisible:CGRectMake(0, 46*sectionOpened, 300, 46*5) animated:YES];
-     
-     */
+    [self.tableView scrollRectToVisible:CGRectMake(0, kMDCellHeight*sectionOpened, 300, kMDCellHeight*6) animated:YES];
+    
 }
 
-
--(void)sectionHeaderView:(TBMPieHeaderSectionCell*)sectionHeaderView sectionClosed:(NSInteger)sectionClosed {
+//  Inspired by https://developer.apple.com/library/ios/samplecode/TableViewUpdates/Introduction/Intro.html
+-(void)sectionHeaderView:(MDLegendHeaderView*)sectionHeaderView sectionClosed:(NSInteger)sectionClosed {
     
     
     NSLog(@"CLOSED %d", sectionClosed);
+
+	MDSectionHeaderInfo *sectionInfo = (self.sectionInfoArray)[sectionClosed];
+
+    //disable arrow
+    UITableViewCell* currentCell = [[self.delegateGraphLegend graphTableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:sectionClosed inSection:0]];
+    [currentCell setSelected:!sectionInfo.isOpened animated:YES];
     
-    /*
-     Create an array of the index paths of the rows in the section that was closed, then delete those rows from the table view.
-     */
-	//APLSectionInfo *sectionInfo = (self.sectionInfoArray)[sectionClosed];
-    
-    /*TBMPieChartViewController* pCC = (TBMPieChartViewController*) pieChartController;
-     [pCC deselectAll];
-     */
-    
-    /*
-    if(!sectionInfo.open) {
+    if(!sectionInfo.isOpened) {
         [self sectionHeaderView:sectionHeaderView sectionOpened:sectionClosed];
         return;
     }
     
     
-    sectionInfo.open = NO;
+    sectionInfo.isOpened = NO;
     NSInteger countOfRowsToDelete = [self.tableView numberOfRowsInSection:sectionClosed];
     
     if (countOfRowsToDelete > 0) {
@@ -286,22 +245,12 @@
         [self.tableView deleteRowsAtIndexPaths:indexPathsToDelete withRowAnimation:UITableViewRowAnimationTop];
     }
     self.openSectionIndex = NSNotFound;
-     */
+    
 }
 
-
--(NSString*) computeKeyFromIndex:(NSUInteger) index {
-   /* TBMGraphMultiStackedViewController* gMSVC = (TBMGraphMultiStackedViewController*) stackViewController;
-    if(gMSVC.specificAlphaOrder) {
-        NSArray* sortedKeys = [NSArray arrayWithArray:[[values allKeys] sortedArrayUsingFunction:cpSort context:NULL]];
-        return [sortedKeys objectAtIndex:index];
-    }
-    NSArray* sortedKeys = [NSArray arrayWithArray:[[values allKeys] sortedArrayUsingFunction:intSort context:NULL]];
-    return [sortedKeys objectAtIndex:index];
-    */
-    return @"okok";
+-(NSUInteger) numberOfRows {
+    return [[values objectForKey:kMDSerieKey] count];
 }
-
 
 
 @end

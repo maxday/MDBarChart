@@ -2,84 +2,59 @@
 //  MDLegendCell.m
 //  MDBarChart
 //
-//  Created by got2bex on 1/12/2014.
+//  Created by got2bex on 1/22/2014.
 //  Copyright (c) 2014 MD. All rights reserved.
 //
 
 #import "MDLegendCell.h"
+#import "MDConstants.h"
 
 @implementation MDLegendCell
 
 @synthesize leftBorder;
-@synthesize customLabel;
-@synthesize disclosureButton;
-@synthesize deValue;
+@synthesize label;
+@synthesize value;
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
+- (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
         
-        leftBorder = [[UIView alloc] initWithFrame:CGRectMake(0,2,10,48)];
-        customLabel = [[UILabel alloc] initWithFrame:CGRectMake(20,5,300,35)];
+        leftBorder = [[UIView alloc] initWithFrame:CGRectMake(0,1,10,kMDCellHeight-2)];
+    
+        label = [[UILabel alloc] initWithFrame:CGRectMake(20,5,300,kMDCellHeight-2*5)];
+        //  [customLabel setBackgroundColor:[UIColor greenColor]];
+        
+     
         
         
-        deValue = [[UILabel alloc] initWithFrame:CGRectMake(320,5,90,35)];
-        [deValue setTextAlignment:NSTextAlignmentRight];
-        [deValue setTextColor:[UIColor blueColor]];
-        [deValue setFont:[UIFont fontWithName:@"Arial-BoldMT" size:16]];
-        
-        disclosureButton = [[UIButton alloc] initWithFrame:CGRectMake(200,0,10,10)];
-        
-        [self.disclosureButton setImage:[UIImage imageNamed:@"carat-open.png"] forState:UIControlStateSelected];
-        
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleOpen:)];
-        [self addGestureRecognizer:tapGesture];
+        value = [[UILabel alloc] initWithFrame:CGRectMake(320,5,90,35)];
+        [value setTextAlignment:NSTextAlignmentRight];
+        [value setTextColor:[UIColor blueColor]];
+        [value setFont:[UIFont fontWithName:kMDFontName size:kMDFontSize]];
+        [value setBackgroundColor:[UIColor clearColor]];
         
         [self addSubview:leftBorder];
-        [self addSubview:customLabel];
-        [self addSubview:deValue];
+        [self addSubview:label];
+        [self addSubview:value];
         
-        self.tintColor = [UIColor whiteColor];
+        //self.tintColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
 
--(IBAction)toggleOpen:(id)sender {
-    [self toggleOpenWithUserAction:YES];
+-(void) setBorderColor:(UIColor *) color {
+    [leftBorder setBackgroundColor:color];
 }
 
 
--(void)toggleOpenWithUserAction:(BOOL)userAction {
-    
-    // Toggle the disclosure button state.
-    
-    self.disclosureButton.selected = !self.disclosureButton.selected;
-    
-    // If this was a user action, send the delegate the appropriate message.
-    if (userAction) {
-        if (self.disclosureButton.selected) {
-            if ([self.delegate respondsToSelector:@selector(sectionHeaderView:sectionOpened:)]) {
-                [self.delegate sectionHeaderView:self sectionOpened:self.section];
-            }
-        }
-        else {
-            if ([self.delegate respondsToSelector:@selector(sectionHeaderView:sectionClosed:)]) {
-                [self.delegate sectionHeaderView:self sectionClosed:self.section];
-            }
-        }
-    }
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
 }
-
-
-/*
- // Only override drawRect: if you perform custom drawing.
- // An empty implementation adversely affects performance during animation.
- - (void)drawRect:(CGRect)rect
- {
- // Drawing code
- }
- */
 
 @end

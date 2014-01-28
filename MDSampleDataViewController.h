@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  MDSampleDataViewController.h
 //  MDBarChart
 //
 //  Created by Maxime David on 2013-09-01.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface MDSampleDataViewController : UIViewController
 
 @property (nonatomic, retain) NSDictionary* data;
 

@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "MDGraphLegendDelegate.h"
+#import "MDCell.h"
 
 @interface MDGraphTableViewController : UITableViewController
 
 @property(nonatomic, retain) NSDictionary* data;
 @property(nonatomic, readwrite) NSUInteger max;
+@property(nonatomic, retain) MDCell* lastCellSelected;
 
-@property(nonatomic, weak) id delegate;
+@property(nonatomic, weak) id<MDGraphLegendDelegate> delegate;
 
 @end

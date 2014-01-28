@@ -7,7 +7,8 @@
 //
 
 #import "MDMainController.h"
-#import "ViewController.h"
+#import "MDSampleDataViewController.h"
+#import "MDConstants.h"
 
 @interface MDMainController ()
 
@@ -39,39 +40,31 @@
     
 	
     
-    scrollHostView = [[UIScrollView alloc] initWithFrame:CGRectMake(30,30,500,500)];
-    [scrollHostView setContentSize:CGSizeMake(500, 1000)];
     
-    
-    scrollHostViewLegend = [[UIScrollView alloc] initWithFrame:CGRectMake(530,30,500,500)];
-    [scrollHostViewLegend setContentSize:CGSizeMake(500, 1000)];
     
     
     
     tableGraph = [[MDGraphTableViewController alloc] init];
     
-    ViewController* vc = [[ViewController alloc] init];
+    MDSampleDataViewController* vc = [[MDSampleDataViewController alloc] init];
+    
     
     [tableGraph setData:[vc data]];
+    tableGraph.delegate = self;
     
-    [self.scrollHostView addSubview:tableGraph.view];
     
-    [self.view addSubview:scrollHostView];
-
-    [self.view addSubview:scrollHostViewLegend];
-
     
     tableLegend = [[MDLegendTableViewController alloc] init];
     [tableLegend setValues:[vc data]];
-
-    
     tableLegend.delegate = self;
+    tableLegend.delegateGraphLegend = self;
 
-    [self.scrollHostViewLegend addSubview:tableLegend.tableView];
     
     
-    tableGraph.delegate = self;
+    [self.view addSubview:tableGraph.tableView];
+    [self.view addSubview:tableLegend.tableView];
     
+
     
     
     
@@ -87,20 +80,24 @@
     return tableLegend.tableView;
 }
 
+- (UITableView*) graphTableView {
+    return tableGraph.tableView;
+}
+
 - (NSUInteger) openSectionIndex {
     return tableLegend.openSectionIndex;
 }
 
-- (void) sectionHeaderView:(MDLegendCell*)sectionHeaderView sectionOpened:(NSInteger)section {
+- (void) sectionHeaderView:(MDLegendHeaderView*)sectionHeaderView sectionOpened:(NSInteger)section {
     NSLog(@"%d", section);
     return [tableLegend sectionHeaderView:sectionHeaderView sectionOpened:section];
 }
 
-- (void) sectionHeaderView:(MDLegendCell*)sectionHeaderView sectionClosed:(NSInteger)section {
+- (void) sectionHeaderView:(MDLegendHeaderView*)sectionHeaderView sectionClosed:(NSInteger)section {
     return [tableLegend sectionHeaderView:sectionHeaderView sectionClosed:section];
 }
 
-- (MDLegendCell*) sectionHeaderAtIndex:(NSUInteger)index {
+- (MDLegendHeaderView*) sectionHeaderAtIndex:(NSUInteger)index {
     return [tableLegend.sectionInfoArray objectAtIndex:index];
 }
 
